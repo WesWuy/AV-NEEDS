@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import type { Space } from '../types';
 import { computeSpace } from '../standards/compute';
 import { STANDARDS_REVISIONS, VERIFY_QUALIFIER } from '../standards/standardsConfig';
+import { formatFtIn } from '../units';
 import { flagBoxClass } from './ui';
 
 function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
@@ -18,7 +19,7 @@ function Stat({ label, value, sub }: { label: string; value: string; sub?: strin
 export default function ComputedPanel({ space }: { space: Space }) {
   const c = useMemo(() => computeSpace(space), [space]);
   const d = c.discas;
-  const m = (v: number | null, u = ' m') => (v == null ? '—' : v.toFixed(2) + u);
+  const m = (v: number | null) => formatFtIn(v);
 
   return (
     <div className="space-y-4">

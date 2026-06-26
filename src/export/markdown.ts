@@ -7,9 +7,10 @@ import type { Project, Space } from '../types';
 import { computeSpace } from '../standards/compute';
 import { STANDARDS_REVISIONS, VERIFY_QUALIFIER } from '../standards/standardsConfig';
 import { QUESTION_GROUPS } from '../data/questionSet';
+import { formatFtIn } from '../units';
 
-function m2(v: number | null, unit = 'm'): string {
-  return v == null ? '—' : `${v.toFixed(2)} ${unit}`;
+function m2(v: number | null): string {
+  return formatFtIn(v);
 }
 
 function answeredGroups(space: Space): string {

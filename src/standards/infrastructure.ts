@@ -4,6 +4,7 @@
  * line is a planning placeholder derived from captured requirements.
  */
 import { INFRA, STANDARDS_REVISIONS } from './standardsConfig';
+import { formatSqFt } from '../units';
 import type { BomLine, Flag, InfraResult, Space } from '../types';
 
 export function computeInfra(space: Space, recommendedDiagonalIn: number | null): InfraResult {
@@ -20,7 +21,7 @@ export function computeInfra(space: Space, recommendedDiagonalIn: number | null)
     const approxAreaSqM = Math.max(2, (w * 0.4)); // VERIFY rough wall area estimate
     bom.push({
       category: 'Display',
-      item: `Direct-view LED wall (~${approxAreaSqM.toFixed(1)} m²)`,
+      item: `Direct-view LED wall (~${formatSqFt(approxAreaSqM, 1)})`,
       qty: 1,
       powerW: Math.round(approxAreaSqM * p.dvLedPerSqMeter),
       rackU: 0,

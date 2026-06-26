@@ -5,6 +5,10 @@
  */
 import type { Space, SpaceType } from '../types';
 import { DISCAS } from '../standards/standardsConfig';
+import { ftToM } from '../units';
+
+/** Baselines are authored in round feet (US convention) and stored as meters. */
+const ft = (n: number): number => ftToM(n);
 
 export interface RoomTemplate {
   type: SpaceType;
@@ -34,8 +38,8 @@ export const ROOM_TEMPLATES: RoomTemplate[] = [
       type: 'huddle',
       maxParticipants: 4,
       seatingLayout: 'Open / sofa or small table',
-      farthestViewerM: 2.5,
-      closestViewerM: 1.2,
+      farthestViewerM: ft(8),
+      closestViewerM: ft(4),
       useCases: ['Video calls', 'Content sharing', 'Ad-hoc collaboration'],
       vcTopology: 'BYOD or small MTR',
     }),
@@ -48,8 +52,8 @@ export const ROOM_TEMPLATES: RoomTemplate[] = [
       type: 'small-conf',
       maxParticipants: 8,
       seatingLayout: 'Boardroom table',
-      farthestViewerM: 4,
-      closestViewerM: 1.5,
+      farthestViewerM: ft(13),
+      closestViewerM: ft(5),
       useCases: ['Video conferencing', 'Presentations', 'Content sharing'],
       vcTopology: 'Dedicated MTR',
     }),
@@ -62,8 +66,8 @@ export const ROOM_TEMPLATES: RoomTemplate[] = [
       type: 'medium-conf',
       maxParticipants: 12,
       seatingLayout: 'Boardroom table',
-      farthestViewerM: 6,
-      closestViewerM: 1.8,
+      farthestViewerM: ft(20),
+      closestViewerM: ft(6),
       useCases: ['Video conferencing', 'Presentations', 'Spreadsheets/detail review'],
       audioIntent: 'speechReinforcement',
     }),
@@ -76,8 +80,8 @@ export const ROOM_TEMPLATES: RoomTemplate[] = [
       type: 'large-conf',
       maxParticipants: 18,
       seatingLayout: 'Large boardroom',
-      farthestViewerM: 8,
-      closestViewerM: 2,
+      farthestViewerM: ft(26),
+      closestViewerM: ft(7),
       viewingCategory: 'ADM',
       useCases: ['Detailed financials/CAD', 'Video conferencing', 'Board presentations'],
       audioIntent: 'speechReinforcement',
@@ -91,8 +95,8 @@ export const ROOM_TEMPLATES: RoomTemplate[] = [
       type: 'training',
       maxParticipants: 24,
       seatingLayout: 'Classroom rows',
-      farthestViewerM: 9,
-      closestViewerM: 2.5,
+      farthestViewerM: ft(30),
+      closestViewerM: ft(8),
       viewingCategory: 'ADM',
       useCases: ['Instruction', 'Detailed content', 'Hybrid learners'],
       audioIntent: 'speechReinforcement',
@@ -106,8 +110,8 @@ export const ROOM_TEMPLATES: RoomTemplate[] = [
       type: 'town-hall',
       maxParticipants: 80,
       seatingLayout: 'Banquet / theater, divisible',
-      farthestViewerM: 14,
-      closestViewerM: 3,
+      farthestViewerM: ft(46),
+      closestViewerM: ft(10),
       displayTech: 'dvled',
       useCases: ['All-hands', 'Presentations', 'Streaming/recording'],
       audioIntent: 'programAudio',
@@ -121,8 +125,8 @@ export const ROOM_TEMPLATES: RoomTemplate[] = [
       type: 'lecture',
       maxParticipants: 150,
       seatingLayout: 'Theater / raked',
-      farthestViewerM: 20,
-      closestViewerM: 4,
+      farthestViewerM: ft(66),
+      closestViewerM: ft(13),
       displayTech: 'projection',
       viewingCategory: 'ADM',
       useCases: ['Lectures', 'Presentations', 'Capture/streaming'],
@@ -137,8 +141,8 @@ export const ROOM_TEMPLATES: RoomTemplate[] = [
       type: 'signage',
       maxParticipants: 0,
       seatingLayout: 'Standing / transient',
-      farthestViewerM: 6,
-      closestViewerM: 1.5,
+      farthestViewerM: ft(20),
+      closestViewerM: ft(5),
       viewingCategory: 'BDM',
       percentElementHeight: 0.08,
       displayTech: 'lcd',

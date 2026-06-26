@@ -4,6 +4,7 @@
  * operator knows when a proper A104/A102 design is required.
  */
 import { AUDIO, STANDARDS_REVISIONS } from './standardsConfig';
+import { formatSqFt } from '../units';
 import type { AudioResult, Flag, Space } from '../types';
 
 export function computeAudio(space: Space): AudioResult {
@@ -54,7 +55,7 @@ export function computeAudio(space: Space): AudioResult {
       flags.push({
         level: 'info',
         message:
-          `~${area.toFixed(0)} m² floor likely needs ≈${estimatedSourcesNeeded} distributed ` +
+          `~${formatSqFt(area)} floor likely needs ≈${estimatedSourcesNeeded} distributed ` +
           `sources for uniform coverage (A102) — a single source is probably inadequate. ` +
           `Confirm with a coverage/uniformity design.`,
         standard: STANDARDS_REVISIONS.audioUniformity,

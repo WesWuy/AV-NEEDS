@@ -5,6 +5,7 @@ import { Field, NumberInput, Select, TextArea, TextInput } from './ui';
 import { QUESTION_GROUPS } from '../data/questionSet';
 import { ROOM_TEMPLATES, templateFor } from '../data/roomTemplates';
 import { VERTICAL_RESOLUTIONS } from '../standards/standardsConfig';
+import { ftInputToM, mToFtInput } from '../units';
 
 type Patch = (s: Space) => Space;
 
@@ -58,12 +59,12 @@ export default function SpaceEditor({
       <section className="card p-4">
         <h3 className="mb-3 text-sm font-bold text-slate-800">Space & viewer geometry</h3>
         <div className="grid gap-3 sm:grid-cols-3">
-          <Field label="Length (m)"><NumberInput value={space.dimensions.lengthM} onChange={(v) => setDim('lengthM', v)} /></Field>
-          <Field label="Width (m)"><NumberInput value={space.dimensions.widthM} onChange={(v) => setDim('widthM', v)} /></Field>
-          <Field label="Ceiling height (m)"><NumberInput value={space.dimensions.ceilingHeightM} onChange={(v) => setDim('ceilingHeightM', v)} /></Field>
+          <Field label="Length (ft)"><NumberInput value={mToFtInput(space.dimensions.lengthM)} onChange={(v) => setDim('lengthM', ftInputToM(v))} /></Field>
+          <Field label="Width (ft)"><NumberInput value={mToFtInput(space.dimensions.widthM)} onChange={(v) => setDim('widthM', ftInputToM(v))} /></Field>
+          <Field label="Ceiling height (ft)"><NumberInput value={mToFtInput(space.dimensions.ceilingHeightM)} onChange={(v) => setDim('ceilingHeightM', ftInputToM(v))} /></Field>
           <Field label="Max participants"><NumberInput value={space.maxParticipants} onChange={(v) => set('maxParticipants', v)} /></Field>
-          <Field label="Farthest viewer (m)" hint="Drives DISCAS minimum image size"><NumberInput value={space.farthestViewerM} onChange={(v) => set('farthestViewerM', v)} /></Field>
-          <Field label="Closest viewer (m)" hint="Geometric closest-viewer bound"><NumberInput value={space.closestViewerM} onChange={(v) => set('closestViewerM', v)} /></Field>
+          <Field label="Farthest viewer (ft)" hint="Drives DISCAS minimum image size"><NumberInput value={mToFtInput(space.farthestViewerM)} onChange={(v) => set('farthestViewerM', ftInputToM(v))} /></Field>
+          <Field label="Closest viewer (ft)" hint="Geometric closest-viewer bound"><NumberInput value={mToFtInput(space.closestViewerM)} onChange={(v) => set('closestViewerM', ftInputToM(v))} /></Field>
           <Field label="Seating layout"><TextInput value={space.seatingLayout} onChange={(v) => set('seatingLayout', v)} /></Field>
           <Field label="Ambient light (lux at screen)"><NumberInput value={space.ambientLightLux} onChange={(v) => set('ambientLightLux', v)} /></Field>
           <Field label="Noise floor (dBA / NC)"><NumberInput value={space.noiseFloorDba} onChange={(v) => set('noiseFloorDba', v)} /></Field>
