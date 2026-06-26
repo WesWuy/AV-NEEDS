@@ -1,5 +1,6 @@
 /** ui.tsx — small reusable form primitives. */
 import React from 'react';
+import { formatFtIn, parseFtInToM } from '../units';
 
 export function Field({
   label,
@@ -82,6 +83,48 @@ export function NumberInput({
       onChange={(e) => {
         const v = e.target.value;
         onChange(v === '' ? null : Number(v));
+      }}
+    />
+  );
+}
+
+/**
+ * Feet-and-inches text input. The model stores meters; this displays and edits
+ * as `16' 5"`. Free text is kept while focused (so typing isn't fought), parsed
+ * to meters on every change, and re-canonicalized from the stored value on blur.
+ */
+export function FeetInchesInput({
+  meters,
+  onChange,
+  placeholder = `e.g. 16' 5"`,
+}: {
+  meters: number | null;
+  onChange: (m: number | null) => void;
+  placeholder?: string;
+}) {
+  const display = meters == null ? '' : formatFtIn(meters);
+  const [text, setText] = React.useState(display);
+  const [focused, setFocused] = React.useState(false);
+
+  // Re-sync when the stored value changes externally and we're not editing.
+  React.useEffect(() => {
+    if (!focused) setText(display);
+  }, [display, focused]);
+
+  return (
+    <input
+      className="field-input"
+      inputMode="text"
+      placeholder={placeholder}
+      value={text}
+      onFocus={() => setFocused(true)}
+      onChange={(e) => {
+        setText(e.target.value);
+        onChange(parseFtInToM(e.target.value));
+      }}
+      onBlur={() => {
+        setFocused(false);
+        setText(display);
       }}
     />
   );

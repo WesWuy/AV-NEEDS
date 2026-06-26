@@ -47,3 +47,44 @@ export function formatFt(m: number | null, digits = 1, dash = '—'): string {
 export function formatSqFt(sqm: number, digits = 0): string {
   return `${sqmToSqft(sqm).toFixed(digits)} ft²`;
 }
+
+/**
+ * Parse a feet/inches text entry to meters. Forgiving about notation:
+ *   `16' 5"`, `16'5"`, `16' 5`, `16 5`, `16'`, `16`, `16.5`, `5"`.
+ * A bare number is treated as feet; two bare numbers as feet then inches.
+ * Returns null for empty/unparseable input.
+ */
+export function parseFtInToM(raw: string): number | null {
+  const s = raw.trim();
+  if (!s) return null;
+
+  let feet = 0;
+  let inches = 0;
+  let matched = false;
+
+  const ftMatch = s.match(/(-?\d+(?:\.\d+)?)\s*(?:'|ft\b)/i);
+  const inMatch = s.match(/(-?\d+(?:\.\d+)?)\s*(?:"|in\b)/i);
+  if (ftMatch) {
+    feet = parseFloat(ftMatch[1]);
+    matched = true;
+  }
+  if (inMatch) {
+    inches = parseFloat(inMatch[1]);
+    matched = true;
+  }
+
+  if (!matched) {
+    const parts = s.split(/\s+/);
+    const num = /^-?\d+(?:\.\d+)?$/;
+    if (parts.length === 2 && num.test(parts[0]) && num.test(parts[1])) {
+      feet = parseFloat(parts[0]);
+      inches = parseFloat(parts[1]);
+    } else if (num.test(s)) {
+      feet = parseFloat(s);
+    } else {
+      return null;
+    }
+  }
+
+  return ftToM(feet + inches / 12);
+}
